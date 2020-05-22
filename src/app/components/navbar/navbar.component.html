@@ -1,0 +1,43 @@
+<mdb-navbar
+	SideClass='navbar navbar-expand-lg navbar-dark unique-color-dark text-white text-right fixed-top'>
+
+	<mdb-navbar-brand>
+		<a class='navbar-brand waves-light' routerLink='/home' mdbWavesEffect>To-do Lists
+			Manager</a>
+	</mdb-navbar-brand>
+
+	<links>
+		<ul class='navbar-nav'>
+			<li class='nav-item'>
+				<a class='nav-link waves-light' routerLink='/home' mdbWavesEffect>Home</a>
+			</li>
+		</ul>
+
+		<div class='navbar-nav ml-auto'>
+			<div class='navbar-nav' *ngIf='userService.user else unlogged'>
+				<div class='nav-item align-bottom' dropdown>
+					<a class='nav-link dropdown-toggle waves-light' dropdownToggle mdbWavesEffect>
+						<img src='https://api.adorable.io/avatars/0/{{userService.user?.name}}@adorable.io.png'
+							alt='{{userService.user?.name}}' class='img-fluid rounded-circle'
+							width='40px'>
+					</a>
+
+					<div class='dropdown-menu dropdown-menu-right' role='menu' *dropdownMenu>
+						<a class='dropdown-item waves-light' routerLink='/profile' mdbWavesEffect>
+							My account
+						</a>
+						<a class='dropdown-item waves-light' (click)='signout()' mdbWavesEffect>
+							Sign out
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<ng-template #unlogged>
+				<div class='nav-item'>
+					<a class='nav-link waves-light' routerLink='/signin' mdbWavesEffect>Sign in</a>
+				</div>
+			</ng-template>
+		</div>
+	</links>
+</mdb-navbar>
