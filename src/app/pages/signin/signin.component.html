@@ -1,0 +1,64 @@
+<mdb-card class='container my-5 p-0'>
+
+	<mdb-card-header class='unique-color-dark white-text text-center'>
+		<h5><strong>Sign in</strong></h5>
+	</mdb-card-header>
+
+	<mdb-card-body class='px-lg-5 pt-0'>
+
+		<form class='text-center'>
+
+			<!-- Email -->
+			<div class='md-form'>
+				<input type='email' id='materialLoginFormEmail' class='form-control'
+					autocomplete='email' mdbInput [(ngModel)]=email name='email'>
+				<label for='materialLoginFormEmail'>E-mail</label>
+			</div>
+
+			<!-- Password -->
+			<div class='md-form'>
+				<input type='password' id='materialLoginFormPassword' class='form-control'
+					autocomplete='current-password' mdbInput [(ngModel)]=password name='password'>
+				<label for='materialLoginFormPassword'>Password</label>
+			</div>
+
+			<div class='d-flex justify-content-around'>
+				<div>
+					<!-- Remember me -->
+					<mdb-checkbox [default]='true'>Remember me</mdb-checkbox>
+				</div>
+				<div>
+					<!-- Forgot password -->
+					<a href=''>Forgot password?</a>
+				</div>
+			</div>
+
+			<!-- Sign in button -->
+			<button block='true' class='my-4' mdbBtn mdbWavesEffect (click)='signin()'>Sign
+				in</button>
+
+			<!-- Register -->
+			<p>Not a member?
+				<a routerLink='/signup'>Register</a>
+			</p>
+
+			<!-- Social login -->
+			<p>or sign in with:</p>
+			<a type='button' mdbBtn floating='true' color='fb' size='sm'>
+				<mdb-icon fab icon='google'></mdb-icon>
+			</a>
+			<a type='button' mdbBtn floating='true' color='fb' size='sm'>
+				<mdb-icon fab icon='facebook'></mdb-icon>
+			</a>
+			<a type='button' mdbBtn floating='true' color='tw' size='sm'>
+				<mdb-icon fab icon='twitter'></mdb-icon>
+			</a>
+			<a type='button' mdbBtn floating='true' color='git' size='sm'>
+				<mdb-icon fab icon='github'></mdb-icon>
+			</a>
+
+		</form>
+
+	</mdb-card-body>
+
+</mdb-card>
