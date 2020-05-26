@@ -1,1 +1,8 @@
-<p>home works!</p>
+<div class='container mt-5'>
+	<div *ngIf='user else signin'>
+		<app-chat-list></app-chat-list>
+	</div>
+	<ng-template #signin>
+		unsigned
+	</ng-template>
+</div>

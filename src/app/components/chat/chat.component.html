@@ -1,0 +1,8 @@
+<p>chat works!</p>
+<div>Destination User Id: {{chat.destinationUserId}}</div>
+<div>
+	Messages: {{chat.messages}}
+	<div *ngFor='let message of chat.messages'>
+		{{message}}
+	</div>
+</div>

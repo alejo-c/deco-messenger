@@ -4,10 +4,12 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md'
 import { RouterModule } from '@angular/router'
 import { FormsModule } from '@angular/forms'
 
-import { NavbarComponent } from './navbar/navbar.component'
+import { NavbarComponent } from './navbar/navbar.component';
+import { ChatListComponent } from './chat-list/chat-list.component';
+import { ChatComponent } from './chat/chat.component'
 
 @NgModule({
-	declarations: [NavbarComponent],
+	declarations: [NavbarComponent, ChatListComponent, ChatComponent],
 	imports: [
 		CommonModule,
 		MDBBootstrapModule.forRoot(),
@@ -15,7 +17,9 @@ import { NavbarComponent } from './navbar/navbar.component'
 		FormsModule
 	],
 	exports: [
-		NavbarComponent
+		NavbarComponent,
+		ChatListComponent,
+		ChatComponent
 	]
 })
 export class ComponentsModule { }
