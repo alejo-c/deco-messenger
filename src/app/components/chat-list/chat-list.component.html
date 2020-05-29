@@ -1,10 +1,18 @@
-<div>
-	<form class="form-inline md-form form-sm">
-		<mdb-icon fas icon="search" aria-hidden="true"></mdb-icon>
-		<input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search"
-			aria-label="Search" mdbInput>
-	</form>
-	<div *ngFor='let chat of chats'>
-		<app-chat chat=chat></app-chat>
+<div class='container row'>
+	<!-- Chats preview -->
+	<div class='col-4'>
+		<form class="form-inline md-form form-sm m-0">
+			<mdb-icon fas icon="search" aria-hidden="true"></mdb-icon>
+			<input class="form-control form-control-sm pt-0 ml-3" type="text" placeholder="Search"
+				aria-label="Search" mdbInput>
+		</form>
+		<div class='border' *ngFor='let chat of chats'>
+			<app-chat-preview [chat]=chat (click)=openChat(chat)></app-chat-preview>
+		</div>
+	</div>
+
+	<!-- Current Chat -->
+	<div class='col-8 border-left'>
+		<app-chat [chat]=currentChat [messages]=messages></app-chat>
 	</div>
 </div>
