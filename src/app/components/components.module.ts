@@ -6,10 +6,11 @@ import { FormsModule } from '@angular/forms'
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { ChatListComponent } from './chat-list/chat-list.component';
-import { ChatComponent } from './chat/chat.component'
+import { ChatComponent } from './chat/chat.component';
+import { ChatPreviewComponent } from './chat-preview/chat-preview.component'
 
 @NgModule({
-	declarations: [NavbarComponent, ChatListComponent, ChatComponent],
+	declarations: [NavbarComponent, ChatListComponent, ChatComponent, ChatPreviewComponent],
 	imports: [
 		CommonModule,
 		MDBBootstrapModule.forRoot(),
