@@ -1,12 +1,13 @@
-<div class='container row'>
+<div class='container m-0 p-0 row'>
 	<!-- Chats preview -->
-	<div class='col-4'>
-		<form class="form-inline md-form form-sm m-0">
-			<mdb-icon fas icon="search" aria-hidden="true"></mdb-icon>
-			<input class="form-control form-control-sm pt-0 ml-3" type="text" placeholder="Search"
+	<div class='col-4 m-0 p-0'>
+		<form class="md-form m-0 p-0 mb-2 mt-1 row">
+			<input class="form-control m-0 p-0 col-10" type="text" placeholder="Search"
 				aria-label="Search" mdbInput>
+			<mdb-icon class='col-1 m-0 p-0 mt-1 ml-1' fas icon="search" aria-hidden="true">
+			</mdb-icon>
 		</form>
-		<div class='border' *ngFor='let chat of chats'>
+		<div class='' *ngFor='let chat of chats'>
 			<app-chat-preview [chat]=chat (click)=openChat(chat)></app-chat-preview>
 		</div>
 	</div>
