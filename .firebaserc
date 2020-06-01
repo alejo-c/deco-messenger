@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "deco-messenger": {
+      "hosting": {
+        "deco-messenger": [
+          "deco-messenger"
+        ]
+      }
+    }
+  }
+}
