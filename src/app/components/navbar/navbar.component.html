@@ -13,12 +13,11 @@
 		</ul>
 
 		<div class='navbar-nav ml-auto'>
-			<div class='navbar-nav' *ngIf='userService.user else unlogged'>
+			<div class='navbar-nav' *ngIf="user$ | async as user; else unlogged">
 				<div class='nav-item align-bottom' dropdown>
 					<a class='nav-link dropdown-toggle waves-light' dropdownToggle mdbWavesEffect>
-						<img src='https://api.adorable.io/avatars/0/{{userService.user?.name}}@adorable.io.png'
-							alt='{{userService.user?.name}}' class='img-fluid rounded-circle'
-							width='40px'>
+						<img src='https://api.adorable.io/avatars/0/{{user?.email}}@adorable.io.png'
+							alt='{{user?.email}}' class='img-fluid rounded-circle' width='40px'>
 					</a>
 
 					<div class='dropdown-menu dropdown-menu-right' role='menu' *dropdownMenu>

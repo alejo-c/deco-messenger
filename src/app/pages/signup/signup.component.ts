@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { User } from 'src/app/models/User';
-import { UserService } from 'src/app/services/user.service';
+import { Component, OnInit, ViewChild } from '@angular/core'
+import { Router } from '@angular/router'
+
+import { Observable } from 'rxjs'
+import { first } from 'rxjs/operators'
+import { AuthService } from 'src/app/services/auth.service'
+import { User } from 'firebase'
+import { ModalDirective } from 'angular-bootstrap-md'
 
 @Component({
 	selector: 'app-signup',
@@ -10,19 +14,43 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class SignupComponent implements OnInit {
 
-	username: string
-	email: string
-	password: string
+	@ViewChild("basicModal") basicModal: ModalDirective;
 
-	constructor(private router: Router, private userService: UserService) {
-		if (this.userService.user)
-			this.router.navigate(['/home'])
+	public user$: Observable<User> = this.authService.afAuth.user
+	public username: string
+	public email: string
+	public password: string
+
+	constructor(public authService: AuthService, public router: Router) {
 	}
 
 	ngOnInit(): void {
+		this.user$.pipe(first()).toPromise().then(user => {
+			if (user)
+				this.router.navigate(['/home'])
+		})
 	}
 
-	signup(): void {
-		console.log('sign up', this.username, this.email, this.password)
+	async signup() {
+		const user = await this.authService.signup(this.email, this.password)
+		if (user) {
+			console.log('sign up', this.username, this.email, this.password)
+			this.basicModal.show()
+		}
+	}
+
+	async signupGoogle() {
+		if (await this.authService.signupGoogle()) {
+			console.log('sign up with google')
+		}
+	}
+
+	closeModal() {
+		this.basicModal.hide()
+		this.router.navigate(['/signin'])
+	}
+
+	async resendEmail() {
+		await this.authService.sendEmailVerification()
 	}
 }

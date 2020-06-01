@@ -1,22 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { UserService } from 'src/app/services/user.service';
+import { Component } from '@angular/core'
 
-import { User } from 'src/app/models/User';
+import { AuthService } from 'src/app/services/auth.service'
+import { User } from 'firebase'
+import { Observable } from 'rxjs'
 
 @Component({
 	selector: 'app-home',
 	templateUrl: './home.component.html',
 	styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
-	user: User
+	public user$: Observable<User> = this.authService.afAuth.user
 
-	constructor(private userService: UserService) {
-		this.user = this.userService.user
+	constructor(public authService: AuthService) {
 	}
-
-	ngOnInit(): void {
-	}
-
 }

@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
-import { User } from 'src/app/models/User'
-import { UserService } from 'src/app/services/user.service'
+
+import { ToastrService } from 'ngx-toastr'
+
+import { Observable } from 'rxjs'
+import { first } from 'rxjs/operators'
+import { AuthService } from 'src/app/services/auth.service'
+import { User } from 'firebase'
 
 @Component({
 	selector: 'app-signin',
@@ -10,18 +15,38 @@ import { UserService } from 'src/app/services/user.service'
 })
 export class SigninComponent implements OnInit {
 
-	email: string
-	password: string
+	public user$: Observable<User> = this.authService.afAuth.user
+	public email: string
+	public password: string
 
-	constructor(public router: Router, private userService: UserService) {
-		if (this.userService.user)
-			this.router.navigate(['/home'])
+	constructor(public authService: AuthService, public router: Router, private toastr: ToastrService) {
 	}
 
 	ngOnInit(): void {
+		this.user$.pipe(first()).toPromise().then(user => {
+			if (user)
+				this.router.navigate(['/home'])
+		})
 	}
 
-	signin(): void {
-		console.log('sign in', this.email, this.password)
+	async signin() {
+		const user = await this.authService.signin(this.email, this.password)
+		if (user) {
+			if (user.user.emailVerified) {
+				console.log('sign in', this.email, this.password)
+				this.toastr.success('Sign in successfully!')
+				this.router.navigate(['/home'])
+			} else {
+				this.toastr.error('You must to vefify your email account')
+				this.authService.signout()
+			}
+		}
+	}
+
+	async signinGoogle() {
+		if (await this.authService.signinGoogle()) {
+			console.log('sign in with google')
+			this.router.navigate(['/home'])
+		}
 	}
 }

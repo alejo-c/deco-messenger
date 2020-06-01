@@ -1,20 +1,27 @@
-import { Component, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
+import { Router } from '@angular/router'
 
-import { UserService } from 'src/app/services/user.service'
+import { ToastrService } from 'ngx-toastr'
+
+import { AuthService } from 'src/app/services/auth.service'
+import { Observable } from 'rxjs'
+import { User } from 'firebase'
 
 @Component({
 	selector: 'app-navbar',
 	templateUrl: './navbar.component.html',
 	styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
 
-	constructor(public userService: UserService) { }
+	public user$: Observable<User> = this.authService.afAuth.user
 
-	ngOnInit(): void {
-	}
+	constructor(public authService: AuthService, public router: Router, private toastr: ToastrService) { }
 
-	signout(): void {
-		this.userService.user = null
+	async signout() {
+		this.authService.signout()
+		console.log('sign out')
+		this.router.navigate(['/home'])
+		this.toastr.success('Sign out successfully!')
 	}
 }

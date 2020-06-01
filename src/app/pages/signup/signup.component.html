@@ -43,29 +43,38 @@
 
 			<!-- Social register -->
 			<p>or sign up with:</p>
-			<a type='button' class='mx-2'>
+			<a type='button' class='mx-2' color='fb' (click)='signupGoogle()'>
 				<mdb-icon fab icon='google'></mdb-icon>
 			</a>
-			<a type='button' class='mx-2'>
+			<a type='button' class='mx-2 disabled' color='fb'>
 				<mdb-icon fab icon='facebook'></mdb-icon>
 			</a>
-			<a type='button' class='mx-2'>
+			<a type='button' class='mx-2 disabled' color='tw'>
 				<mdb-icon fab icon='twitter'></mdb-icon>
 			</a>
-			<a type='button' class='mx-2'>
+			<a type='button' class='mx-2 disabled' color='git'>
 				<mdb-icon fab icon='github'></mdb-icon>
 			</a>
-
-			<hr>
-
-			<!-- Terms of service -->
-			<p>By clicking
-				<em>Sign up</em> you agree to our
-				<a href='' target='_blank'>terms of service</a>.
-			</p>
-
 		</form>
-
 	</mdb-card-body>
-
 </mdb-card>
+
+<div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog"
+	aria-labelledby="myBasicModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close pull-right" aria-label="Close"
+					(click)="closeModal()">
+					<span aria-hidden="true">×</span>
+				</button>
+				<h4 class="modal-title w-100" id="myModalLabel">Confirm your email address</h4>
+			</div>
+			<div class="modal-body">
+				We've sent you a confirmation email to <span
+					class='font-weight-bold'>{{email}}</span><br>
+				Please check your email and verify your account.
+			</div>
+		</div>
+	</div>
+</div>

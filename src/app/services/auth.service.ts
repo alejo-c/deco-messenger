@@ -32,8 +32,8 @@ export class AuthService {
 	async signup(email: string, password: string) {
 		try {
 			const user = await this.afAuth.createUserWithEmailAndPassword(email, password)
-			this.signout()
 			this.sendEmailVerification()
+			this.signout()
 			return user
 		} catch (error) {
 			this.toastr.error(error.message.split(':').pop(), error.code.split('/').pop());
@@ -42,9 +42,7 @@ export class AuthService {
 
 	async signupGoogle() {
 		try {
-			const user = await this.afAuth.signInWithPopup(new auth.GoogleAuthProvider())
-			this.toastr.success('Sign up successfully!')
-			return user
+			return await this.afAuth.signInWithPopup(new auth.GoogleAuthProvider())
 		} catch (error) {
 			this.toastr.error(error.message.split(':').pop(), error.code.split('/').pop());
 		}
