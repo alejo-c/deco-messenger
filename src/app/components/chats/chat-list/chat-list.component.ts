@@ -1,7 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
-import { UserService } from 'src/app/services/user.service';
-import { User } from 'src/app/models/User';
 import { Chat } from 'src/app/models/Chat';
 import { Message } from 'src/app/models/Message';
 
@@ -10,20 +8,16 @@ import { Message } from 'src/app/models/Message';
 	templateUrl: './chat-list.component.html',
 	styleUrls: ['./chat-list.component.scss']
 })
-export class ChatListComponent implements OnInit {
+export class ChatListComponent {
 
-	public user: User
 	public chats: Chat[]
 	public currentChat: Chat
 	public messages: Message[]
 
-	constructor(private userService: UserService) {
-		this.user = this.userService.user
-		this.chats = this.user.chats
-		console.log('current:', this.currentChat)
-	}
-
-	ngOnInit(): void {
+	constructor() {
+		// this.user = this.userService.user
+		// this.chats = this.user.chats
+		// console.log('current:', this.currentChat)
 	}
 
 	openChat(chat: Chat) {

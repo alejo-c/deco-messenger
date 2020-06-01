@@ -9,7 +9,7 @@
 		</mdb-card-header>
 		<mdb-card-body class='d-inline-block'>
 			<div *ngFor='let message of messages'>
-				<div class='text-right' *ngIf='message.owner == user.id else contact'>
+				<div class='text-right' *ngIf='message.owner == "user.id" else contact'>
 					<div class='badge badge-primary'>{{message.text}}</div>
 				</div>
 				<ng-template #contact>
