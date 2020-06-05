@@ -2,17 +2,17 @@
 	<mdb-card>
 		<mdb-card-header class=''>
 			<a class='nav-link waves-light media m-0 p-0' dropdownToggle mdbWavesEffect>
-				<img src='https://api.adorable.io/avatars/0/{{chat.contact}}@adorable.io.png'
-					alt='{{chat.contact}}' class='img-fluid rounded-circle' width='40px'>
-				<div class='ml-1 font-weight-bold'>{{chat.contact}}</div>
+				<img src='https://api.adorable.io/avatars/0/{{chat.destinationUID}}@adorable.io.png'
+					alt='{{chat.destinationUID}}' class='img-fluid rounded-circle' width='40px'>
+				<div class='ml-1 font-weight-bold'>{{chat.destinationUID}}</div>
 			</a>
 		</mdb-card-header>
 		<mdb-card-body class='d-inline-block'>
 			<div *ngFor='let message of messages'>
-				<div class='text-right' *ngIf='message.owner == "user.id" else contact'>
+				<div class='text-right' *ngIf='message.originUID == "user.id" else destinationUID'>
 					<div class='badge badge-primary'>{{message.text}}</div>
 				</div>
-				<ng-template #contact>
+				<ng-template #destinationUID>
 					<div class="div badge badge-light">
 						{{message.text}}
 					</div>

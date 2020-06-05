@@ -3,10 +3,14 @@ import { Router } from '@angular/router'
 
 import { Observable } from 'rxjs'
 import { first } from 'rxjs/operators'
-import { AuthService } from 'src/app/services/auth.service'
-import { ToastrService } from 'ngx-toastr'
-import { User } from 'firebase'
 import { ModalDirective } from 'angular-bootstrap-md'
+
+import { AuthService } from 'src/app/services/auth.service'
+import { UserService } from 'src/app/services/user.service'
+import { ToastrService } from 'ngx-toastr'
+
+import { User as fUser } from 'firebase'
+import { User } from 'src/app/models/User'
 
 @Component({
 	selector: 'app-signup',
@@ -17,13 +21,17 @@ export class SignupComponent implements OnInit {
 
 	@ViewChild("basicModal") basicModal: ModalDirective;
 
-	public user$: Observable<User> = this.authService.afAuth.user
+	public user$: Observable<fUser> = this.authService.afAuth.user
 	public displayName: string
 	public email: string
 	public password: string
 
-	constructor(public authService: AuthService, public router: Router, public toastr: ToastrService) {
-	}
+	constructor(
+		private authService: AuthService,
+		private userService: UserService,
+		public router: Router,
+		private toastr: ToastrService
+	) { }
 
 	ngOnInit(): void {
 		this.user$.pipe(first()).toPromise().then(user => {
@@ -34,9 +42,12 @@ export class SignupComponent implements OnInit {
 
 	async signup() {
 		try {
-			const user = await this.authService.signup(this.displayName, this.email, this.password)
+			const user = await (await this.authService.signup(this.displayName, this.email, this.password)).user
 			if (user) {
 				console.log('sign up', this.displayName, this.email, this.password)
+				this.userService.createUser({ uid: user.uid, displayName: this.displayName, contacts: [], chats: [] }).then(user => {
+					console.log('Register user:', user)
+				})
 				this.basicModal.show()
 			}
 		} catch (error) {
@@ -46,7 +57,9 @@ export class SignupComponent implements OnInit {
 
 	async signupGoogle() {
 		try {
-			if (await this.authService.signupGoogle()) {
+			const user = await (await this.authService.signupGoogle()).user
+			if (user) {
+				this.userService.createUser({ uid: user.uid, displayName: user.displayName, contacts: [], chats: [] })
 				console.log('sign up with google')
 			}
 		} catch (error) {

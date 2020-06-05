@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core'
 
-import { Chat } from 'src/app/models/Chat';
+import { Chat } from 'src/app/models/Chat'
+import { Message } from 'src/app/models/Message'
 
 @Component({
 	selector: 'app-chat-preview',
@@ -10,6 +11,7 @@ import { Chat } from 'src/app/models/Chat';
 export class ChatPreviewComponent {
 
 	@Input() chat: Chat
+	@Input() messages: Message[]
 
 	constructor() { }
 }

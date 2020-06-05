@@ -10,10 +10,19 @@
 		<div class='' *ngFor='let chat of chats'>
 			<app-chat-preview [chat]=chat (click)=openChat(chat)></app-chat-preview>
 		</div>
-	</div>
+		<div class='d-inline-flex border-top m-0 p-0'>
+			<form class="md-form row m-0 p-0 ">
+				<input class="form-control col-7 m-0" type="text" placeholder="Contact ID"
+					aria-label="Contact ID" mdbInput [(ngModel)]=destinationUID
+					name='destinationUID'>
+				<button mdbBtn mdbWavesEffect block='true' class='col-5 m-0'
+					(click)='addContact()'>Add</button>
+			</form>
+		</div>
 
+	</div>
 	<!-- Current Chat -->
 	<div class='col-8 border-left'>
-		<app-chat [chat]=currentChat [messages]=messages></app-chat>
+		center
+		<!-- <app-chat [chat]=currentChat [messages]=messages></app-chat> -->
 	</div>
-</div>

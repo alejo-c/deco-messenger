@@ -1,9 +1,8 @@
-import { Chat } from './Chat';
+import { Chat } from './Chat'
 
 export interface User {
-	id: string,
-	name: string,
-	email: string,
-	password: string,
+	uid: string,
+	displayName: string,
+	contacts: string[],
 	chats: Chat[]
 }

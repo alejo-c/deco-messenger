@@ -1,6 +1,7 @@
-import { Message } from './Message';
+import { Message } from './Message'
 
 export interface Chat {
-	contact: string,
+	originUID: string,
+	destinationUID: string
 	messages: Message[]
 }
