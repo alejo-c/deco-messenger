@@ -10,6 +10,7 @@ import { PagesModule } from './pages/pages.module'
 
 import { AngularFireModule } from '@angular/fire'
 import { AngularFireAuthModule } from '@angular/fire/auth'
+import { AngularFireDatabaseModule } from "@angular/fire/database"
 import { environment } from 'src/environments/environment'
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
@@ -27,6 +28,7 @@ import { ToastrModule } from 'ngx-toastr'
 		PagesModule,
 		AngularFireModule.initializeApp(environment.firebaseConfig),
 		AngularFireAuthModule,
+		AngularFireDatabaseModule,
 		BrowserAnimationsModule,
 		ToastrModule.forRoot()
 	],
