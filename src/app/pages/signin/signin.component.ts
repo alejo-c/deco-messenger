@@ -30,23 +30,33 @@ export class SigninComponent implements OnInit {
 	}
 
 	async signin() {
-		const user = await this.authService.signin(this.email, this.password)
-		if (user) {
-			if (user.user.emailVerified) {
-				console.log('sign in', this.email, this.password)
-				this.toastr.success('Sign in successfully!')
-				this.router.navigate(['/home'])
-			} else {
-				this.toastr.error('You must to vefify your email account')
-				this.authService.signout()
+		try {
+			const user = await this.authService.signin(this.email, this.password)
+			if (user.user) {
+				if (user.user.emailVerified) {
+					console.log('sign in', this.email, this.password)
+					this.toastr.success('Sign in successfully!')
+					console.log('user:', user.user)
+					this.router.navigate(['/home'])
+				} else {
+					this.toastr.error('You must to vefify your email account')
+					this.authService.signout()
+				}
 			}
+		} catch (error) {
+			this.toastr.error(error.message.split(':').pop(), error.code.split('/').pop())
 		}
 	}
 
 	async signinGoogle() {
-		if (await this.authService.signinGoogle()) {
-			console.log('sign in with google')
-			this.router.navigate(['/home'])
+		try {
+			if (await this.authService.signinGoogle()) {
+				console.log('sign in with google')
+				this.toastr.success('Sign in successfully!')
+				this.router.navigate(['/home'])
+			}
+		} catch (error) {
+			this.toastr.error(error.message.split(':').pop(), error.code.split('/').pop());
 		}
 	}
 }

@@ -2,58 +2,42 @@ import { Injectable } from '@angular/core'
 
 import { auth } from 'firebase/app'
 import { AngularFireAuth } from '@angular/fire/auth'
-import { ToastrService } from 'ngx-toastr'
 
 @Injectable({
 	providedIn: 'root'
 })
 export class AuthService {
 
-	constructor(public afAuth: AngularFireAuth, private toastr: ToastrService) { }
+	constructor(public afAuth: AngularFireAuth) { }
 
 	async signin(email: string, password: string) {
-		try {
-			return await this.afAuth.signInWithEmailAndPassword(email, password)
-		} catch (error) {
-			this.toastr.error(error.message.split(':').pop(), error.code.split('/').pop())
-		}
+		return await this.afAuth.signInWithEmailAndPassword(email, password)
 	}
 
 	async signinGoogle() {
-		try {
-			const user = await this.afAuth.signInWithPopup(new auth.GoogleAuthProvider())
-			this.toastr.success('Sign in successfully!')
-			return user
-		} catch (error) {
-			this.toastr.error(error.message.split(':').pop(), error.code.split('/').pop());
-		}
+		return await this.afAuth.signInWithPopup(new auth.GoogleAuthProvider())
 	}
 
-	async signup(email: string, password: string) {
-		try {
-			const user = await this.afAuth.createUserWithEmailAndPassword(email, password)
-			this.sendEmailVerification()
-			this.signout()
-			return user
-		} catch (error) {
-			this.toastr.error(error.message.split(':').pop(), error.code.split('/').pop());
-		}
+	async signup(displayName: string, email: string, password: string) {
+		const user = await this.afAuth.createUserWithEmailAndPassword(email, password)
+		user.user.updateProfile({
+			displayName: displayName, photoURL: `https://api.adorable.io/avatars/0/${displayName}@adorable.io.png`
+		}).then(function () {
+			console.log('updated:', displayName)
+		}, function (error) {
+			console.log('error:', error)
+		})
+		this.sendEmailVerification()
+		this.signout()
+		return user
 	}
 
 	async signupGoogle() {
-		try {
-			return await this.afAuth.signInWithPopup(new auth.GoogleAuthProvider())
-		} catch (error) {
-			this.toastr.error(error.message.split(':').pop(), error.code.split('/').pop());
-		}
+		return await this.afAuth.signInWithPopup(new auth.GoogleAuthProvider())
 	}
 
 	async signout() {
-		try {
-			return await this.afAuth.signOut()
-		} catch (error) {
-			this.toastr.error(error.message.split(':').pop(), error.code.split('/').pop());
-		}
+		return await this.afAuth.signOut()
 	}
 
 	async sendEmailVerification(): Promise<void> {
