@@ -1,4 +1,4 @@
-<mdb-navbar
+<mdb-navbar #navbar
 	SideClass='navbar navbar-expand-lg navbar-dark unique-color-dark text-white text-right fixed-top'>
 
 	<mdb-navbar-brand>
@@ -13,27 +13,29 @@
 		</ul>
 
 		<div class='navbar-nav ml-auto'>
-			<div class='navbar-nav' *ngIf="user$ | async as user; else unlogged">
+			<div class='navbar-nav' *ngIf="user$ | async as user; else unsigned">
 				<div class='nav-item align-bottom' dropdown>
 					<a class='nav-link dropdown-toggle waves-light' dropdownToggle mdbWavesEffect>
-						<img src='https://api.adorable.io/avatars/0/{{user?.email}}@adorable.io.png'
-							alt='{{user?.email}}' class='img-fluid rounded-circle' width='40px'>
+						<img src='{{user.photoURL}}' alt='{{user.displayName}}'
+							class='img-fluid rounded-circle' width='40px'>
 					</a>
-
 					<div class='dropdown-menu dropdown-menu-right' role='menu' *dropdownMenu>
-						<a class='dropdown-item waves-light' routerLink='/profile' mdbWavesEffect>
-							My account
+						<a class='dropdown-item waves-light' (click)='toggle()'
+							routerLink='/profile' mdbWavesEffect>
+							Profile
 						</a>
-						<a class='dropdown-item waves-light' (click)='signout()' mdbWavesEffect>
+						<a class='dropdown-item waves-light' (click)='signout()' routerLink='/home'
+							mdbWavesEffect>
 							Sign out
 						</a>
 					</div>
 				</div>
 			</div>
 
-			<ng-template #unlogged>
+			<ng-template #unsigned>
 				<div class='nav-item'>
-					<a class='nav-link waves-light' routerLink='/signin' mdbWavesEffect>Sign in</a>
+					<a class='nav-link waves-light' (click)='toggle()' routerLink='/signin'
+						mdbWavesEffect>Sign in</a>
 				</div>
 			</ng-template>
 		</div>
