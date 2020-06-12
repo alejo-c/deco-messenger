@@ -23,7 +23,7 @@ export class AuthService {
 		user.user.updateProfile({
 			displayName: displayName, photoURL: `https://api.adorable.io/avatars/0/${displayName}@adorable.io.png`
 		}).then(function () {
-			console.log('updated:', displayName)
+			// console.log('updated:', displayName)
 		}, function (error) {
 			console.log('error:', error)
 		})

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 
-import { AngularFirestore, DocumentReference, DocumentChangeAction } from '@angular/fire/firestore'
+import { AngularFirestore, DocumentReference } from '@angular/fire/firestore'
 import { User } from '../models/User'
 
 @Injectable({
@@ -12,20 +12,23 @@ export class UserService {
 
 	constructor(private firestore: AngularFirestore) { }
 
-	createUser(user: User): Promise<DocumentReference> {
-		return this.firestore.collection('users').add(user)
+	createUser(user: User): Promise<void> {
+		return this.firestore.collection('users').doc(user.uid).set(user, { merge: true })
 	}
 
 	readUsers() {
 		return this.firestore.collection('users').snapshotChanges()
 	}
 
+	readUser(userUid: string) {
+		return this.firestore.doc('users/' + userUid).snapshotChanges()
+	}
+
 	updateUser(user: User): Promise<void> {
-		delete user.uid
 		return this.firestore.doc('users/' + user.uid).update(user)
 	}
 
-	deteteUser(userUID: string): Promise<void> {
-		return this.firestore.doc('users/' + userUID).delete()
+	deteteUser(userUid: string): Promise<void> {
+		return this.firestore.doc('users/' + userUid).delete()
 	}
 }
