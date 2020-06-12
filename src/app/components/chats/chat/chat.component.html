@@ -2,28 +2,36 @@
 	<mdb-card>
 		<mdb-card-header class=''>
 			<a class='nav-link waves-light media m-0 p-0' dropdownToggle mdbWavesEffect>
-				<img src='https://api.adorable.io/avatars/0/{{chat.destinationUID}}@adorable.io.png'
-					alt='{{chat.destinationUID}}' class='img-fluid rounded-circle' width='40px'>
-				<div class='ml-1 font-weight-bold'>{{chat.destinationUID}}</div>
+				<img src='{{destinationUser?.photoURL}}' alt='{{destinationUser?.displayName}}'
+					class='img-fluid rounded-circle' width='40px'>
+				<div class='ml-1 font-weight-bold'>{{destinationUser?.displayName}}</div>
 			</a>
 		</mdb-card-header>
 		<mdb-card-body class='d-inline-block'>
-			<div *ngFor='let message of messages'>
-				<div class='text-right' *ngIf='message.originUID == "user.id" else destinationUID'>
-					<div class='badge badge-primary'>{{message.text}}</div>
-				</div>
-				<ng-template #destinationUID>
-					<div class="div badge badge-light">
-						{{message.text}}
+			<div *ngIf='chat.messages'>
+				<div *ngFor='let message of chat.messages'>
+					<div *ngIf='user$ | async as currentUser;'>
+						<div class='text-right'
+							*ngIf='message.ownerUid === currentUser.uid else destination'>
+							<div class='badge badge-primary'>
+								{{message.text}}
+							</div>
+						</div>
+						<ng-template #destination>
+							<div class="badge badge-light">
+								{{message.text}}
+							</div>
+						</ng-template>
 					</div>
-				</ng-template>
+				</div>
 			</div>
 		</mdb-card-body>
 		<mdb-card-footer>
 			<form class="md-form m-0 p-0 row">
-				<input class="form-control form-control-sm m-0 p-0 col-11" type="text"
-					placeholder="Send" aria-label="Send" mdbInput>
-				<div class='m-0 p-0 col-1'>➤</div>
+				<input mdbInput class="form-control form-control-sm m-0 p-0 col-11" type="text"
+					placeholder="Send" aria-label="Send" [(ngModel)]='text' name='text' #textField>
+				<button mdbBtn mdbWavesEffect class='m-0 p-0 col-1'
+					(click)='sendMessage()'>➤</button>
 			</form>
 		</mdb-card-footer>
 	</mdb-card>

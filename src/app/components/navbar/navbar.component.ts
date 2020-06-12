@@ -19,7 +19,11 @@ export class NavbarComponent {
 
 	public user$: Observable<User> = this.authService.afAuth.user
 
-	constructor(public authService: AuthService, public router: Router, private toastr: ToastrService) { }
+	constructor(
+		public authService: AuthService,
+		public router: Router,
+		private toastr: ToastrService
+	) { }
 
 	toggle(): void {
 		if (this.navbar.shown)
