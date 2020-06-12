@@ -13,6 +13,5 @@ export class HomeComponent {
 
 	public user$: Observable<User> = this.authService.afAuth.user
 
-	constructor(public authService: AuthService) {
-	}
+	constructor(public authService: AuthService) { }
 }

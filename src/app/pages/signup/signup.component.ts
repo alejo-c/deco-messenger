@@ -9,8 +9,7 @@ import { AuthService } from 'src/app/services/auth.service'
 import { UserService } from 'src/app/services/user.service'
 import { ToastrService } from 'ngx-toastr'
 
-import { User as fUser } from 'firebase'
-import { User } from 'src/app/models/User'
+import { User } from 'firebase'
 
 @Component({
 	selector: 'app-signup',
@@ -21,7 +20,7 @@ export class SignupComponent implements OnInit {
 
 	@ViewChild("basicModal") basicModal: ModalDirective;
 
-	public user$: Observable<fUser> = this.authService.afAuth.user
+	public user$: Observable<User> = this.authService.afAuth.user
 	public displayName: string
 	public email: string
 	public password: string
@@ -42,11 +41,18 @@ export class SignupComponent implements OnInit {
 
 	async signup() {
 		try {
-			const user = await (await this.authService.signup(this.displayName, this.email, this.password)).user
+			const user = (await this.authService.signup(this.displayName, this.email, this.password)).user
 			if (user) {
-				console.log('sign up', this.displayName, this.email, this.password)
-				this.userService.createUser({ uid: user.uid, displayName: this.displayName, contacts: [], chats: [] }).then(user => {
-					console.log('Register user:', user)
+				// console.log('sign up', this.displayName, this.email, this.password)
+				this.userService.createUser({
+					uid: user.uid,
+					displayName: user.displayName,
+					photoURL: user.photoURL,
+					contacts: []
+				}).then(user => {
+					// console.log('Register user:', user)
+				}).catch(error => {
+					console.log('Not Registered:', error)
 				})
 				this.basicModal.show()
 			}
@@ -57,19 +63,22 @@ export class SignupComponent implements OnInit {
 
 	async signupGoogle() {
 		try {
-			const user = await (await this.authService.signupGoogle()).user
+			const user = (await this.authService.signupGoogle()).user
 			if (user) {
-				this.userService.createUser({ uid: user.uid, displayName: user.displayName, contacts: [], chats: [] })
-				console.log('sign up with google')
+				this.userService.createUser({
+					uid: user.uid,
+					displayName: user.displayName,
+					photoURL: user.photoURL,
+					contacts: []
+				}).then(user => {
+					// console.log('Register user:', user)
+				}).catch(error => {
+					console.log('Not Registered:', error)
+				})
 			}
 		} catch (error) {
 			this.toastr.error(error.message.split(':').pop(), error.code.split('/').pop());
 		}
-	}
-
-	closeModal() {
-		this.basicModal.hide()
-		this.router.navigate(['/signin'])
 	}
 
 	async resendEmail() {
@@ -78,5 +87,10 @@ export class SignupComponent implements OnInit {
 		} catch (error) {
 			console.log('Can not resend email verification')
 		}
+	}
+
+	closeModal() {
+		this.basicModal.hide()
+		this.router.navigate(['/signin'])
 	}
 }

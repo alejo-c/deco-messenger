@@ -19,8 +19,11 @@ export class SigninComponent implements OnInit {
 	public email: string
 	public password: string
 
-	constructor(public authService: AuthService, public router: Router, private toastr: ToastrService) {
-	}
+	constructor(
+		public authService: AuthService,
+		public router: Router,
+		private toastr: ToastrService
+	) { }
 
 	ngOnInit(): void {
 		this.user$.pipe(first()).toPromise().then(user => {
@@ -34,9 +37,9 @@ export class SigninComponent implements OnInit {
 			const user = await this.authService.signin(this.email, this.password)
 			if (user.user) {
 				if (user.user.emailVerified) {
-					console.log('sign in', this.email, this.password)
+					// console.log('sign in', this.email, this.password)
 					this.toastr.success('Sign in successfully!')
-					console.log('user:', user.user)
+					// console.log('user:', user.user)
 					this.router.navigate(['/home'])
 				} else {
 					this.toastr.error('You must to vefify your email account')
