@@ -1,7 +1,14 @@
 import { Injectable } from '@angular/core'
 
-import { auth } from 'firebase/app'
+import { Observable } from 'rxjs'
+import { first } from 'rxjs/operators'
+
+import { auth, User as fUser } from 'firebase/app'
 import { AngularFireAuth } from '@angular/fire/auth'
+
+import { UserService } from './user.service'
+
+import { User } from '../models/User'
 
 @Injectable({
 	providedIn: 'root'
@@ -20,8 +27,10 @@ export class AuthService {
 
 	async signup(displayName: string, email: string, password: string) {
 		const user = await this.afAuth.createUserWithEmailAndPassword(email, password)
+
 		user.user.updateProfile({
-			displayName: displayName, photoURL: `https://api.adorable.io/avatars/0/${displayName}@adorable.io.png`
+			displayName: displayName,
+			photoURL: `https://api.adorable.io/avatars/0/${displayName}@adorable.io.png`
 		}).then(function () {
 			// console.log('updated:', displayName)
 		}, function (error) {
