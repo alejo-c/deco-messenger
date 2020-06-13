@@ -9,13 +9,21 @@ import { ChatListComponent } from './chats/chat-list/chat-list.component'
 import { ChatComponent } from './chats/chat/chat.component'
 import { ChatPreviewComponent } from './chats/chat-preview/chat-preview.component'
 
+import { ScrollingModule } from '@angular/cdk/scrolling'
+
 @NgModule({
-	declarations: [NavbarComponent, ChatListComponent, ChatComponent, ChatPreviewComponent],
+	declarations: [
+		NavbarComponent,
+		ChatListComponent,
+		ChatComponent,
+		ChatPreviewComponent
+	],
 	imports: [
 		CommonModule,
 		MDBBootstrapModule.forRoot(),
 		RouterModule,
-		FormsModule
+		FormsModule,
+		ScrollingModule
 	],
 	exports: [
 		NavbarComponent,

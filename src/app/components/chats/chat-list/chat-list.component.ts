@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Output, EventEmitter } from '@angular/core'
 
 import { Observable } from 'rxjs'
 import { first } from 'rxjs/operators'
@@ -9,7 +9,6 @@ import { ChatService } from 'src/app/services/chat.service'
 
 import { User as fUser } from 'firebase'
 import { User } from 'src/app/models/User'
-
 import { Chat } from 'src/app/models/Chat'
 
 @Component({
@@ -19,10 +18,10 @@ import { Chat } from 'src/app/models/Chat'
 })
 export class ChatListComponent implements OnInit {
 
-	public user$: Observable<fUser> = this.authService.afAuth.user
+	@Output() chatOutput = new EventEmitter<Chat>();
 
+	public user$: Observable<fUser> = this.authService.afAuth.user
 	public currentUser: User
-	public currentChat: Chat
 	public contactUid: string
 
 	public chats: Chat[]
@@ -55,19 +54,14 @@ export class ChatListComponent implements OnInit {
 	}
 
 	openChat(chat: Chat) {
-		// console.log('current chat:', chat)
-		this.currentChat = chat
+		this.chatOutput.emit(chat)
 	}
 
 	addContact() {
-		// console.log('current user:', this.currentUser)
-		// console.log('chats:', this.chats)
-		// console.log('New contact:', this.contactUid)
 		this.contactUid = null
 
 		this.userService.readUser(this.contactUid).subscribe(data => {
 			let contact = data.payload.data() as User
-			// console.log('contact:', contact)
 			if (contact) {
 
 				if (!this.currentUser.contacts.includes(this.contactUid)) {

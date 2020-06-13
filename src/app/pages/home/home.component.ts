@@ -1,8 +1,11 @@
 import { Component } from '@angular/core'
 
-import { AuthService } from 'src/app/services/auth.service'
-import { User } from 'firebase'
 import { Observable } from 'rxjs'
+
+import { AuthService } from 'src/app/services/auth.service'
+
+import { User as fUser } from 'firebase'
+import { Chat } from 'src/app/models/Chat'
 
 @Component({
 	selector: 'app-home',
@@ -11,7 +14,12 @@ import { Observable } from 'rxjs'
 })
 export class HomeComponent {
 
-	public user$: Observable<User> = this.authService.afAuth.user
+	public user$: Observable<fUser> = this.authService.afAuth.user
+	public currentChat: Chat
 
-	constructor(public authService: AuthService) { }
+	constructor(private authService: AuthService) { }
+
+	openChat(chat: Chat) {
+		this.currentChat = chat
+	}
 }

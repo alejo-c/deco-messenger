@@ -1,7 +1,18 @@
 <div class='container-xl mt-5'>
 	<div *ngIf='user$ | async as user; else signin'>
-		<app-chat-list></app-chat-list>
+		<div class='row'>
+			<!-- Chat List -->
+			<div class='col-4 mr-0 pr-0'>
+				<app-chat-list (chatOutput)='openChat($event)'></app-chat-list>
+			</div>
+
+			<!-- Current Chat -->
+			<div class='col-8 border-left'>
+				<app-chat [chat]='currentChat'></app-chat>
+			</div>
+		</div>
 	</div>
+
 	<ng-template #signin>
 		unsigned
 	</ng-template>

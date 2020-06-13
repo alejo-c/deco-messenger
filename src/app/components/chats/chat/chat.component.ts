@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core'
+import { Component, Input, OnChanges, HostListener } from '@angular/core'
 
 import { Observable } from 'rxjs'
 import { first } from 'rxjs/operators'

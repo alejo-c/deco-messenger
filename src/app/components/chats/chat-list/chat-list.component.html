@@ -1,29 +1,26 @@
-<div class='row'>
-	<div class='col-4 mr-0 pr-0'>
-		<form class="md-form m-0 p-0 mb-2 mt-1 row">
-			<input class="form-control m-0 p-0 col-10" type="text" placeholder="Search"
-				aria-label="Search" mdbInput>
-			<mdb-icon class='col-1 m-0 p-0 mt-1 ml-1' fas icon="search" aria-hidden="true">
-			</mdb-icon>
-		</form>
+<!-- Search -->
+<form class="md-form m-0 p-0 mb-2 mt-1 row">
+	<input class="form-control m-0 p-0 col-10" type="text" placeholder="Search" aria-label="Search"
+		mdbInput>
+	<mdb-icon class='col-1 m-0 p-0 mt-1 ml-1' fas icon="search" aria-hidden="true">
+	</mdb-icon>
+</form>
 
-		<!-- Chats preview -->
+<!-- Chats preview -->
+<div class='d-block'>
+	<cdk-virtual-scroll-viewport itemSize='1' class='viewport' style='height: 650px'>
 		<div *ngFor='let chat of chats'>
 			<app-chat-preview [chat]='chat' (click)='openChat(chat)'></app-chat-preview>
 		</div>
+	</cdk-virtual-scroll-viewport>
+</div>
 
-		<div class='d-inline-flex border-top m-0 p-0'>
-			<form class="md-form row m-0 p-0 ">
-				<input class="form-control col-7 m-0" type="text" placeholder="Contact ID"
-					aria-label="Contact ID" mdbInput [(ngModel)]='contactUid' name='contactUid'>
-				<button mdbBtn mdbWavesEffect block='true' class='col-5 m-0'
-					(click)='addContact()'>Add</button>
-			</form>
-		</div>
-	</div>
-
-	<!-- Current Chat -->
-	<div class='col-8 border-left'>
-		<app-chat [chat]='currentChat'></app-chat>
-	</div>
+<!-- Add Contact -->
+<div class='d-inline-flex m-0 p-0'>
+	<form class="md-form row m-0 p-0 ">
+		<input class="form-control col-7 m-0" type="text" placeholder="Contact ID"
+			aria-label="Contact ID" mdbInput [(ngModel)]='contactUid' name='contactUid'>
+		<button mdbBtn mdbWavesEffect block='true' class='col-5 m-0'
+			(click)='addContact()'>Add</button>
+	</form>
 </div>

@@ -7,8 +7,27 @@
 				<div class='ml-1 font-weight-bold'>{{destinationUser?.displayName}}</div>
 			</a>
 		</mdb-card-header>
-		<mdb-card-body class='d-inline-block'>
-			<div *ngIf='chat.messages'>
+
+		<mdb-card-body class='d-inline-block m-0 p-0'>
+
+			<cdk-virtual-scroll-viewport itemSize='1' class='viewport ml-2 mt-2 mb-2'
+				style='height: 650px'>
+				<div *ngFor='let message of chat.messages'>
+					<div class='text-right mr-2'
+						*ngIf='message.ownerUid === currentUser.uid else destination'>
+						<div class='badge badge-primary'>
+							{{message.text}}
+						</div>
+					</div>
+					<ng-template #destination>
+						<div class="badge badge-light">
+							{{message.text}}
+						</div>
+					</ng-template>
+				</div>
+			</cdk-virtual-scroll-viewport>
+
+			<!-- <div *ngIf='chat.messages'>
 				<div *ngFor='let message of chat.messages'>
 					<div *ngIf='user$ | async as currentUser;'>
 						<div class='text-right'
@@ -24,8 +43,9 @@
 						</ng-template>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</mdb-card-body>
+
 		<mdb-card-footer>
 			<form class="md-form m-0 p-0 row">
 				<input mdbInput class="form-control form-control-sm m-0 p-0 col-11" type="text"
