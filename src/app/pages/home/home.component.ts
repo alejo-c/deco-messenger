@@ -1,11 +1,10 @@
 import { Component } from '@angular/core'
 
 import { Observable } from 'rxjs'
-
-import { AuthService } from 'src/app/services/auth.service'
-
 import { User as fUser } from 'firebase'
-import { Chat } from 'src/app/models/Chat'
+
+import { AuthService } from '@services/auth.service'
+import { Chat } from '@models/Chat'
 
 @Component({
 	selector: 'app-home',

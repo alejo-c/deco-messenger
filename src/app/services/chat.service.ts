@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core'
-
 import { AngularFirestore } from '@angular/fire/firestore'
-import { Chat } from '../models/Chat'
-import { Message } from '../models/Message'
+
+import { Chat } from '@models/Chat'
+import { Message } from '@models/Message'
 
 @Injectable({
 	providedIn: 'root'
