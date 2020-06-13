@@ -1,12 +1,13 @@
 import { Component, ViewChild } from '@angular/core'
 import { Router } from '@angular/router'
 
+import { NavbarComponent as Navbar } from 'angular-bootstrap-md'
 import { ToastrService } from 'ngx-toastr'
 
-import { AuthService } from 'src/app/services/auth.service'
 import { Observable } from 'rxjs'
 import { User } from 'firebase'
-import { NavbarComponent as Navbar } from 'angular-bootstrap-md'
+
+import { AuthService } from '@services/auth.service'
 
 @Component({
 	selector: 'app-navbar',

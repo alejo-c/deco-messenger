@@ -2,14 +2,14 @@ import { Component, Input, OnInit } from '@angular/core'
 
 import { Observable } from 'rxjs'
 import { first } from 'rxjs/operators'
-
-import { AuthService } from 'src/app/services/auth.service'
-import { UserService } from 'src/app/services/user.service'
-
 import { User as fUser } from 'firebase'
-import { User } from 'src/app/models/User'
-import { Chat } from 'src/app/models/Chat'
-import { Message } from 'src/app/models/Message'
+
+import { AuthService } from '@services/auth.service'
+import { UserService } from '@services/user.service'
+
+import { User } from '@models/User'
+import { Chat } from '@models/Chat'
+import { Message } from '@models/Message'
 
 @Component({
 	selector: 'app-chat-preview',

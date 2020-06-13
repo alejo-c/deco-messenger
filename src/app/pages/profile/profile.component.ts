@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 
 import { Observable } from 'rxjs'
-import { AuthService } from 'src/app/services/auth.service'
-import { User } from 'firebase'
 import { first } from 'rxjs/operators'
+import { User } from 'firebase'
+
+import { AuthService } from '@services/auth.service'
 
 @Component({
 	selector: 'app-profile',
