@@ -1,14 +1,16 @@
 <mdb-card *ngIf='user$ | async as user;' class='container mt-5 text-center'>
 	<mdb-card-header class='bg-white'>
+		<h3>Your Profile</h3>
 		<img src='{{user.photoURL}}' alt='{{user.displayName}}' class='rounded-circle'
 			width='200px'>
 		<h4>{{user.displayName}}</h4>
 	</mdb-card-header>
 	<mdb-card-body>
-		<div>{{user.uid}} {{user.email}}</div>
+		<div><span class='font-weight-bold'>UID:</span> {{user.uid}}</div>
+		<div><span class='font-weight-bold'>EMAIL:</span> {{user.email}}</div>
 		<div>
-			<button mdbBtn mdbWavesEffect color='info'>Edit</button>
-			<button mdbBtn mdbWavesEffect color='danger'>Delete</button>
+			<!-- <button mdbBtn mdbWavesEffect color='info'>Edit</button> -->
+			<!-- <button mdbBtn mdbWavesEffect color='danger'>Delete</button> -->
 		</div>
 	</mdb-card-body>
 </mdb-card>
