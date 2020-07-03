@@ -14,7 +14,7 @@
 			[class.hovering]='isHovering'>
 
 			<div class='custom-file d-inline-flex'>
-				<input type='file' class='custom-file-input' id='customFileLang' lang='es'
+				<input type='file' class='custom-file-input' id='customFileLang' lang='en'
 					(change)='chooseFile($event)'>
 				<label class='custom-file-label' for='customFileLang'>{{fileName}}</label>
 			</div>
@@ -22,32 +22,26 @@
 			<cdk-virtual-scroll-viewport itemSize='1' class='viewport ml-2' style='height: 650px'>
 				<div *ngFor='let message of chat.messages'>
 
-					<div *ngIf='message.type=="message" else file'>
-						<div class='text-right mr-2'
-							*ngIf='message.ownerUid === currentUser.uid else destinationM'>
-							<div class='badge badge-primary'>
+					<div class='text-right mr-2'
+						*ngIf='message.ownerUid === currentUser?.uid else destination'>
+						<div class='badge badge-primary'>
+							<div *ngIf='message.type=="message" else fileCu'>
 								{{message.text}}
 							</div>
+							<ng-template #fileCu>
+								<app-file [file]='message'></app-file>
+							</ng-template>
 						</div>
-						<ng-template #destinationM>
-							<div class='badge badge-light'>
-								{{message.text}}
-							</div>
-						</ng-template>
 					</div>
-
-					<ng-template #file>
-						<div class='text-right mr-2'
-							*ngIf='message.ownerUid === currentUser.uid else destinationF'>
-							<div class='badge badge-primary'>
-								<app-file [file]=message></app-file>
+					<ng-template #destination>
+						<div class='badge badge-light'>
+							<div *ngIf='message.type=="message" else fileCo'>
+								{{message.text}}
 							</div>
+							<ng-template #fileCo>
+								<app-file [file]='message'></app-file>
+							</ng-template>
 						</div>
-						<ng-template #destinationF>
-							<div class='badge badge-light'>
-								<app-file [file]=message></app-file>
-							</div>
-						</ng-template>
 					</ng-template>
 				</div>
 			</cdk-virtual-scroll-viewport>

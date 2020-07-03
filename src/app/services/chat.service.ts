@@ -46,7 +46,7 @@ export class ChatService {
 						datetime,
 						ownerUid,
 						URL,
-						name: file.name,
+						text: file.name,
 						type: 'file'
 					}
 					this.firestore.collection('chats').doc(chatId)

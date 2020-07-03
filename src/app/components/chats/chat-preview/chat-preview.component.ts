@@ -6,10 +6,12 @@ import { User as fUser } from 'firebase'
 
 import { AuthService } from '@services/auth.service'
 import { UserService } from '@services/user.service'
+import { ChatService } from '@services/chat.service'
 
 import { User } from '@models/User'
 import { Chat } from '@models/Chat'
 import { Message } from '@models/Message'
+import { PlainTextFile } from '@models/PlainTextFile'
 
 @Component({
 	selector: 'app-chat-preview',
@@ -19,11 +21,16 @@ import { Message } from '@models/Message'
 export class ChatPreviewComponent implements OnInit {
 
 	@Input() chat: Chat
-	@Input() messages: Message[]
+
 	private user$: Observable<fUser> = this.authService.afAuth.user
 	public destinationUser: User
+	public lastMessage: string
 
-	constructor(private authService: AuthService, private userService: UserService) { }
+	constructor(
+		private authService: AuthService,
+		private userService: UserService,
+		private chatService: ChatService
+	) { }
 
 	ngOnInit() {
 		this.user$.pipe(first()).toPromise().then(currentUser => {
@@ -37,5 +44,25 @@ export class ChatPreviewComponent implements OnInit {
 				})[0].payload.doc.data() as User
 			})
 		})
+
+		this.chatService.readChatMessages(this.chat.id).subscribe(
+			data => {
+				this.chat.messages = data.map(e => {
+					return e.payload.doc.data() as Message
+				})
+
+				if (this.chat.messages) {
+					this.chat.messages = this.chat.messages.sort(
+						(a: Message, b: Message) => {
+							return new Date(a.datetime).getTime()
+								- new Date(b.datetime).getTime()
+						}
+					)
+
+					let lastMessage = this.chat.messages[this.chat.messages.length - 1]
+					if (lastMessage)
+						this.lastMessage = lastMessage.text
+				}
+			})
 	}
 }

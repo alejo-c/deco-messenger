@@ -15,7 +15,7 @@ export class FileComponent implements OnInit {
 		URL: 'https://firebasestorage.googleapis.com/v0/b/deco-messenger.appspot.com/o/files%2F1.txt?alt=media&token=8aa32114-56ea-43ea-8e58-930e881e9674'
 		, datetime: '2020-07-03T02:35:58.851Z',
 		ownerUid: 'NeSzW0PYm0OX1Sg5tSLNbcZNiKj1',
-		name: '1.txt',
+		text: '1.txt',
 		type: 'file'
 	}
 	public httpsReference

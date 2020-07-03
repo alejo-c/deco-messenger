@@ -58,12 +58,10 @@ export class ChatListComponent implements OnInit {
 	}
 
 	addContact() {
-		this.contactUid = null
-
 		this.userService.readUser(this.contactUid).subscribe(data => {
 			let contact = data.payload.data() as User
-			if (contact) {
 
+			if (contact) {
 				if (!this.currentUser.contacts.includes(this.contactUid)) {
 					this.currentUser.contacts.push(this.contactUid)
 
