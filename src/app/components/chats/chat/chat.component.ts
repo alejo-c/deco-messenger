@@ -6,6 +6,7 @@ import { first } from 'rxjs/operators'
 import { AuthService } from '@services/auth.service'
 import { UserService } from '@services/user.service'
 import { ChatService } from '@services/chat.service'
+import { EncryptService } from '@services/encrypt.service'
 
 import { User as fUser } from 'firebase'
 import { User } from '@models/User'
@@ -33,7 +34,8 @@ export class ChatComponent implements OnChanges {
 	constructor(
 		private authService: AuthService,
 		private userService: UserService,
-		private chatService: ChatService
+		private chatService: ChatService,
+		private encrypt: EncryptService
 	) { }
 
 	ngOnChanges() {
