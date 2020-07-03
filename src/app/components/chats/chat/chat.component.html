@@ -1,6 +1,7 @@
 <div *ngIf='chat else chatNotChoosed'>
 	<mdb-card>
-		<mdb-card-header class=''>
+
+		<mdb-card-header class='d-inline-flex'>
 			<a class='nav-link waves-light media m-0 p-0' dropdownToggle mdbWavesEffect>
 				<img src='{{destinationUser?.photoURL}}' alt='{{destinationUser?.displayName}}'
 					class='img-fluid rounded-circle' width='40px'>
@@ -8,51 +9,60 @@
 			</a>
 		</mdb-card-header>
 
-		<mdb-card-body class='d-inline-block m-0 p-0'>
+		<mdb-card-body class='d-inline-block m-0 p-0 dropzone' appDropzone
+			(hovered)='toggleHover($event)' (dropped)='onDrop($event)'
+			[class.hovering]='isHovering'>
 
-			<cdk-virtual-scroll-viewport itemSize='1' class='viewport ml-2 mt-2 mb-2'
-				style='height: 650px'>
-				<div *ngFor='let message of chat.messages'>
-					<div class='text-right mr-2'
-						*ngIf='message.ownerUid === currentUser.uid else destination'>
-						<div class='badge badge-primary'>
-							{{message.text}}
-						</div>
-					</div>
-					<ng-template #destination>
-						<div class="badge badge-light">
-							{{message.text}}
-						</div>
-					</ng-template>
-				</div>
-			</cdk-virtual-scroll-viewport>
+			<div class='custom-file d-inline-flex'>
+				<input type='file' class='custom-file-input' id='customFileLang' lang='es'
+					(change)='chooseFile($event)'>
+				<label class='custom-file-label' for='customFileLang'>{{fileName}}</label>
+			</div>
 
-			<!-- <div *ngIf='chat.messages'>
+			<cdk-virtual-scroll-viewport itemSize='1' class='viewport ml-2' style='height: 650px'>
 				<div *ngFor='let message of chat.messages'>
-					<div *ngIf='user$ | async as currentUser;'>
-						<div class='text-right'
-							*ngIf='message.ownerUid === currentUser.uid else destination'>
+
+					<div *ngIf='message.type=="message" else file'>
+						<div class='text-right mr-2'
+							*ngIf='message.ownerUid === currentUser.uid else destinationM'>
 							<div class='badge badge-primary'>
 								{{message.text}}
 							</div>
 						</div>
-						<ng-template #destination>
-							<div class="badge badge-light">
+						<ng-template #destinationM>
+							<div class='badge badge-light'>
 								{{message.text}}
 							</div>
 						</ng-template>
 					</div>
+
+					<ng-template #file>
+						<div class='text-right mr-2'
+							*ngIf='message.ownerUid === currentUser.uid else destinationF'>
+							<div class='badge badge-primary'>
+								<app-file [file]=message></app-file>
+							</div>
+						</div>
+						<ng-template #destinationF>
+							<div class='badge badge-light'>
+								<app-file [file]=message></app-file>
+							</div>
+						</ng-template>
+					</ng-template>
 				</div>
-			</div> -->
+			</cdk-virtual-scroll-viewport>
+
 		</mdb-card-body>
 
 		<mdb-card-footer>
-			<form class="md-form m-0 p-0 row">
-				<input mdbInput class="form-control form-control-sm m-0 p-0 col-11" type="text"
-					placeholder="Send" aria-label="Send" [(ngModel)]='text' name='text' #textField>
-				<button mdbBtn mdbWavesEffect class='m-0 p-0 col-1'
-					(click)='sendMessage()'>➤</button>
-			</form>
+			<div class='m-0 p-0 row'>
+				<input mdbInput type='text' class='form-control col-11 m-0' placeholder='Last name'
+					autocomplete='off' [(ngModel)]='text' #textField>
+
+				<button mdbBtn mdbWavesEffect class='col-1 m-0 px-2 pb-2' (click)='sendMessage()'>
+					<mdb-icon fas icon='paper-plane'></mdb-icon>
+				</button>
+			</div>
 		</mdb-card-footer>
 	</mdb-card>
 </div>

@@ -20,13 +20,18 @@ import { Message } from '@models/Message'
 export class ChatComponent implements OnChanges {
 
 	@Input() chat: Chat
+
 	public user$: Observable<fUser> = this.authService.afAuth.user
 	public currentUser: User
+
 	public destinationUser: User
 	public text: string
 
+	public isHovering: boolean
+	public fileName: string = 'Choose File'
+
 	constructor(
-		public authService: AuthService,
+		private authService: AuthService,
 		private userService: UserService,
 		private chatService: ChatService
 	) { }
@@ -34,9 +39,10 @@ export class ChatComponent implements OnChanges {
 	ngOnChanges() {
 		if (this.chat) {
 			this.user$.pipe(first()).toPromise().then(currentUser => {
-				let destinationUid = this.chat.usersUid.filter(userUid => {
-					return userUid != currentUser.uid
-				})[0]
+				let destinationUid = this.chat.usersUid.filter(
+					userUid => {
+						return userUid != currentUser.uid
+					})[0]
 
 				this.userService.readUsers().subscribe(data => {
 					this.destinationUser = data.filter(e => {
@@ -49,17 +55,19 @@ export class ChatComponent implements OnChanges {
 				})
 			})
 
-			this.chatService.readChatMessages(this.chat.id).subscribe(data => {
-				this.chat.messages = data.map(e => {
-					return e.payload.doc.data() as Message
-				})
+			this.chatService.readChatMessages(this.chat.id).subscribe(
+				data => {
+					this.chat.messages = data.map(e => {
+						return e.payload.doc.data() as Message
+					})
 
-				this.chat.messages = this.chat.messages.sort(
-					(a: Message, b: Message) => {
-						return new Date(a.datetime).getTime() - new Date(b.datetime).getTime()
-					}
-				)
-			})
+					this.chat.messages = this.chat.messages.sort(
+						(a: Message, b: Message) => {
+							return new Date(a.datetime).getTime()
+								- new Date(b.datetime).getTime()
+						}
+					)
+				})
 		}
 	}
 
@@ -68,9 +76,10 @@ export class ChatComponent implements OnChanges {
 			let message: Message = {
 				datetime: new Date().toISOString(),
 				ownerUid: this.currentUser.uid,
-				text: this.text
+				text: this.text,
+				type: 'message'
 			}
-			// console.log(message)
+
 			this.chatService.createMessage(this.chat.id, message).then(() => {
 				if (!this.destinationUser.contacts.includes(this.currentUser.uid)) {
 					this.destinationUser.contacts.push(this.currentUser.uid)
@@ -80,6 +89,23 @@ export class ChatComponent implements OnChanges {
 				console.log('error:', error)
 			})
 			this.text = null
+		}
+	}
+
+	toggleHover(event: boolean) {
+		this.isHovering = event
+	}
+
+	onDrop(files: FileList) {
+		this.chatService.createFileMessage(
+			this.chat.id, this.currentUser.uid, files
+		)
+	}
+
+	chooseFile(event: any) {
+		if (event.target.files) {
+			this.fileName = `Last upload: ${event.target.files[0].name}`
+			this.onDrop(event.target.files)
 		}
 	}
 }

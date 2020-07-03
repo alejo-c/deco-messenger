@@ -9,25 +9,31 @@ import { NavbarComponent } from '@components/navbar/navbar.component'
 import { ChatListComponent } from '@components/chats/chat-list/chat-list.component'
 import { ChatComponent } from '@components/chats/chat/chat.component'
 import { ChatPreviewComponent } from '@components/chats/chat-preview/chat-preview.component'
+import { FileComponent } from './file/file.component'
+
+import { DirectivesModule } from '../directives/directives.module'
 
 @NgModule({
 	declarations: [
 		NavbarComponent,
 		ChatListComponent,
 		ChatComponent,
-		ChatPreviewComponent
+		ChatPreviewComponent,
+		FileComponent
 	],
 	imports: [
 		CommonModule,
 		MDBBootstrapModule.forRoot(),
 		RouterModule,
 		FormsModule,
-		ScrollingModule
+		ScrollingModule,
+		DirectivesModule
 	],
 	exports: [
 		NavbarComponent,
 		ChatListComponent,
-		ChatComponent
+		ChatComponent,
+		FileComponent
 	]
 })
 export class ComponentsModule { }
