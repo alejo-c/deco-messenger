@@ -7,6 +7,7 @@ import { User as fUser } from 'firebase'
 import { AuthService } from '@services/auth.service'
 import { UserService } from '@services/user.service'
 import { ChatService } from '@services/chat.service'
+import { EncryptService } from '@services/encrypt.service'
 
 import { User } from '@models/User'
 import { Chat } from '@models/Chat'
@@ -29,7 +30,8 @@ export class ChatPreviewComponent implements OnInit {
 	constructor(
 		private authService: AuthService,
 		private userService: UserService,
-		private chatService: ChatService
+		private chatService: ChatService,
+		private encrypt: EncryptService
 	) { }
 
 	ngOnInit() {
@@ -52,6 +54,11 @@ export class ChatPreviewComponent implements OnInit {
 				})
 
 				if (this.chat.messages) {
+					this.chat.messages.map(message => {
+						if (message.type == 'message')
+							message.text = this.encrypt.decrypt(message.text, this.chat.id)
+					})
+
 					this.chat.messages = this.chat.messages.sort(
 						(a: Message, b: Message) => {
 							return new Date(a.datetime).getTime()

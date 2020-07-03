@@ -13,6 +13,8 @@ import { User } from '@models/User'
 import { Chat } from '@models/Chat'
 import { Message } from '@models/Message'
 
+// import { HttpClient } from '@angular/common/http'
+
 @Component({
 	selector: 'app-chat',
 	templateUrl: './chat.component.html',
@@ -36,6 +38,7 @@ export class ChatComponent implements OnChanges {
 		private userService: UserService,
 		private chatService: ChatService,
 		private encrypt: EncryptService
+		// private http: HttpClient
 	) { }
 
 	ngOnChanges() {
@@ -61,6 +64,11 @@ export class ChatComponent implements OnChanges {
 				data => {
 					this.chat.messages = data.map(e => {
 						return e.payload.doc.data() as Message
+					})
+
+					this.chat.messages.map(message => {
+						if (message.type == 'message')
+							message.text = this.encrypt.decrypt(message.text, this.chat.id)
 					})
 
 					this.chat.messages = this.chat.messages.sort(

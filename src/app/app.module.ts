@@ -16,6 +16,8 @@ import { environment } from 'src/environments/environment'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { ToastrModule } from 'ngx-toastr'
 
+import { HttpClientModule } from '@angular/common/http'
+
 @NgModule({
 	declarations: [
 		AppComponent
@@ -30,7 +32,8 @@ import { ToastrModule } from 'ngx-toastr'
 		AngularFireAuthModule,
 		AngularFireDatabaseModule,
 		BrowserAnimationsModule,
-		ToastrModule.forRoot()
+		ToastrModule.forRoot(),
+		HttpClientModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]

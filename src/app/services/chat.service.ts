@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core'
 import { AngularFirestore } from '@angular/fire/firestore'
 import { AngularFireStorage } from '@angular/fire/storage'
 
+import { EncryptService } from './encrypt.service'
+
 import { Chat } from '@models/Chat'
 import { Message } from '@models/Message'
 import { PlainTextFile } from '@models/PlainTextFile'
@@ -15,7 +17,8 @@ export class ChatService {
 
 	constructor(
 		private firestore: AngularFirestore,
-		private storage: AngularFireStorage
+		private storage: AngularFireStorage,
+		private encrypt: EncryptService
 	) { }
 
 	createChat(chat: Chat): Promise<void> {
@@ -24,6 +27,8 @@ export class ChatService {
 	}
 
 	createMessage(chatId: string, message: Message) {
+		if (message.type == 'message')
+			message.text = this.encrypt.encrypt(message.text, chatId)
 		return this.firestore.collection('chats').doc(chatId)
 			.collection('messages').doc(this.generateId())
 			.set(message, { merge: true })
