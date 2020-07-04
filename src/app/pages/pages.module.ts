@@ -9,10 +9,16 @@ import { ComponentsModule } from '@components/components.module'
 import { HomeComponent } from '@pages/home/home.component'
 import { SigninComponent } from '@pages/signin/signin.component'
 import { SignupComponent } from '@pages/signup/signup.component'
-import { ProfileComponent } from '@pages/profile/profile.component'
+import { ProfileComponent } from '@pages/profile/profile.component';
+import { AesComponent } from './aes/aes.component'
 
 @NgModule({
-	declarations: [HomeComponent, SigninComponent, SignupComponent, ProfileComponent],
+	declarations: [HomeComponent,
+		SigninComponent,
+		SignupComponent,
+		ProfileComponent,
+		AesComponent
+	],
 	imports: [
 		CommonModule,
 		MDBBootstrapModule.forRoot(),

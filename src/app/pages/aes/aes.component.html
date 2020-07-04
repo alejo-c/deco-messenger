@@ -1,0 +1,45 @@
+<div class='row mx-auto'>
+	<div class='col-sm-6'>
+		<button type='button' class='btn btn-primary btn-lg btn-block'>
+			Encryption
+		</button>
+		<br>
+		<div class='form-group'>
+			<label for='txtTextToConvert'>Plain Text</label>
+			<textarea type='text' class='form-control' placeholder='Text to encrypt'
+				[(ngModel)]='plainText'></textarea>
+		</div>
+
+		<div class='form-group'>
+			<label for='txtPassword'>Password</label>
+			<input type='password' class='form-control' placeholder='Encryption password'
+				[(ngModel)]='encPassword'>
+		</div>
+		<textarea class='form-control' readonly rows='3'>{{conversionEncryptOutput}}</textarea>
+		<br>
+		<button type='button' class='btn btn-success float-right'
+			(click)='encrypt()'>Encrypt</button>
+	</div>
+
+	<div class='col-sm-6'>
+		<button type='button' class='btn btn-dark btn-lg btn-block'>
+			Decryption
+		</button>
+		<br>
+		<div class='form-group'>
+			<label for='txtTextToConvert'>Encrypted Text</label>
+			<textarea type='text' class='form-control' placeholder='Text to decrypt'
+				[(ngModel)]='encryptText'></textarea>
+		</div>
+
+		<div class='form-group'>
+			<label for='txtPassword'>Password</label>
+			<input type='password' class='form-control' placeholder='Decryption password'
+				[(ngModel)]='decPassword'>
+		</div>
+		<textarea class='form-control' readonly rows='3'>{{conversionDecryptOutput}}</textarea>
+		<br>
+		<button type='button' class='btn btn-success float-right'
+			(click)='decrypt()'>Decrypt</button>
+	</div>
+</div>
