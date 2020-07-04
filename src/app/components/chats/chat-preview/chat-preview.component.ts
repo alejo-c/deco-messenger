@@ -12,7 +12,6 @@ import { EncryptService } from '@services/encrypt.service'
 import { User } from '@models/User'
 import { Chat } from '@models/Chat'
 import { Message } from '@models/Message'
-import { PlainTextFile } from '@models/PlainTextFile'
 
 @Component({
 	selector: 'app-chat-preview',
@@ -67,8 +66,12 @@ export class ChatPreviewComponent implements OnInit {
 					)
 
 					let lastMessage = this.chat.messages[this.chat.messages.length - 1]
-					if (lastMessage)
-						this.lastMessage = lastMessage.text
+					if (lastMessage) {
+						if (lastMessage.type == 'message')
+							this.lastMessage = lastMessage.text
+						else
+							this.lastMessage = lastMessage.name
+					}
 				}
 			})
 	}

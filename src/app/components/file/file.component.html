@@ -1,6 +1,4 @@
-<button mdbBtn class='ml-0 px- 5 py- 3 btn btn-light'>
-	<a href={{file.URL}} target='_blank' class='d-inline-flex'>
-		<mdb-icon fas icon="file-download"></mdb-icon>
-		<div class='ml-3'>{{file.text}}</div>
-	</a>
+<button mdbBtn class='m-0 p-0 btn btn-link d-inline-flex' (click)='download()'>
+	<mdb-icon fas icon="file-download"></mdb-icon>
+	<div class='ml-3'>{{file.name}}</div>
 </button>

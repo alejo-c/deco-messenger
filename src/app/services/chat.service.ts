@@ -6,8 +6,8 @@ import { EncryptService } from './encrypt.service'
 
 import { Chat } from '@models/Chat'
 import { Message } from '@models/Message'
-import { PlainTextFile } from '@models/PlainTextFile'
 
+// @ts-ignore
 @Injectable({
 	providedIn: 'root'
 })
@@ -34,31 +34,39 @@ export class ChatService {
 			.set(message, { merge: true })
 	}
 
-	async createFileMessage(
-		chatId: string, ownerUid: string, files: FileList
+	async getTextFile(file: File) {
+		return file.text?.toString()
+	}
+
+	createFileMessage(
+		chatId: string, ownerUid: string, file: File
 	) {
-		for (let i = 0; i < files.length; i++) {
-			const file: File = files.item(i)
+		const path = `files/${file.name}`
+		const ref = this.storage.ref(path)
 
-			const datetime = new Date().toISOString()
-			const path = `files/${file.name}`
-			const ref = this.storage.ref(path)
+		const datetime = new Date().toISOString()
 
-			this.storage.upload(path, file).then(() => {
+		let text
+		this.getTextFile(file).then(t => {
+			text = t
+		})
+		text = this.encrypt.encrypt(text, chatId)
+		this.storage.upload(path, new File(text.split(''), file.name))
+			.then(() => {
 				ref.getDownloadURL().toPromise().then(URL => {
 
-					let plainTextFile: PlainTextFile = {
+					let plainTextFile: Message = {
 						datetime,
 						ownerUid,
 						URL,
-						text: file.name,
+						name: file.name,
+						text: text,
 						type: 'file'
 					}
 					this.firestore.collection('chats').doc(chatId)
 						.collection('messages').add(plainTextFile)
 				})
 			})
-		}
 	}
 
 	readChats() {

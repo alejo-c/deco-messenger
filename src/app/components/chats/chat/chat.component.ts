@@ -13,8 +13,6 @@ import { User } from '@models/User'
 import { Chat } from '@models/Chat'
 import { Message } from '@models/Message'
 
-// import { HttpClient } from '@angular/common/http'
-
 @Component({
 	selector: 'app-chat',
 	templateUrl: './chat.component.html',
@@ -38,7 +36,6 @@ export class ChatComponent implements OnChanges {
 		private userService: UserService,
 		private chatService: ChatService,
 		private encrypt: EncryptService
-		// private http: HttpClient
 	) { }
 
 	ngOnChanges() {
@@ -86,6 +83,8 @@ export class ChatComponent implements OnChanges {
 			let message: Message = {
 				datetime: new Date().toISOString(),
 				ownerUid: this.currentUser.uid,
+				URL: this.text,
+				name: this.text,
 				text: this.text,
 				type: 'message'
 			}
@@ -107,9 +106,10 @@ export class ChatComponent implements OnChanges {
 	}
 
 	onDrop(files: FileList) {
-		this.chatService.createFileMessage(
-			this.chat.id, this.currentUser.uid, files
-		)
+		for (let i = 0; i < files.length; i++)
+			this.chatService.createFileMessage(
+				this.chat.id, this.currentUser.uid, files.item(i)
+			)
 	}
 
 	chooseFile(event: any) {
