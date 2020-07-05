@@ -3,6 +3,7 @@ import { Component, Input } from '@angular/core'
 import { Message } from '@models/Message'
 
 import { HttpClient } from '@angular/common/http'
+import { ToastrService } from 'ngx-toastr'
 import { saveAs } from 'file-saver'
 
 @Component({
@@ -14,12 +15,16 @@ export class FileComponent {
 
 	@Input() file: Message
 
-	constructor(private http: HttpClient) { }
+	constructor(
+		private http: HttpClient,
+		private toastr: ToastrService
+	) { }
 
 	download() {
 		this.http.get(this.file.URL, { responseType: 'blob' })
 			.subscribe(res => {
 				saveAs(res, this.file.name)
 			})
+		this.toastr.info('Use chat id to dencrypt the file text', 'Dencrypt file')
 	}
 }

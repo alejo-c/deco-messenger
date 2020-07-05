@@ -1,3 +1,17 @@
 textarea {
 	resize: none;
+	min-height: 29vh;
+}
+
+.dropzone {
+	margin: 10px 0;
+
+	&.hovering {
+		border: 2px dashed #f16624;
+		color: #dadada !important;
+	}
+}
+
+progress::-webkit-progress-value {
+	transition: width 0.1s ease;
 }

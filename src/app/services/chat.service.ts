@@ -3,11 +3,11 @@ import { AngularFirestore } from '@angular/fire/firestore'
 import { AngularFireStorage } from '@angular/fire/storage'
 
 import { EncryptService } from './encrypt.service'
+import { ReadFileService } from './read-file.service'
 
 import { Chat } from '@models/Chat'
 import { Message } from '@models/Message'
 
-// @ts-ignore
 @Injectable({
 	providedIn: 'root'
 })
@@ -18,7 +18,8 @@ export class ChatService {
 	constructor(
 		private firestore: AngularFirestore,
 		private storage: AngularFireStorage,
-		private encrypt: EncryptService
+		private encrypt: EncryptService,
+		private readFileService: ReadFileService
 	) { }
 
 	createChat(chat: Chat): Promise<void> {
@@ -34,11 +35,7 @@ export class ChatService {
 			.set(message, { merge: true })
 	}
 
-	async getTextFile(file: File) {
-		return file.text?.toString()
-	}
-
-	createFileMessage(
+	async createFileMessage(
 		chatId: string, ownerUid: string, file: File
 	) {
 		const path = `files/${file.name}`
@@ -46,25 +43,24 @@ export class ChatService {
 
 		const datetime = new Date().toISOString()
 
-		let text
-		this.getTextFile(file).then(t => {
-			text = t
-		})
-		text = this.encrypt.encrypt(text, chatId)
+		let text = this.encrypt.encrypt(
+			await this.readFileService.readFileContent(file), chatId
+		)
+
 		this.storage.upload(path, new File(text.split(''), file.name))
 			.then(() => {
 				ref.getDownloadURL().toPromise().then(URL => {
 
-					let plainTextFile: Message = {
+					let message: Message = {
 						datetime,
 						ownerUid,
 						URL,
 						name: file.name,
-						text: text,
+						text: file.name,
 						type: 'file'
 					}
 					this.firestore.collection('chats').doc(chatId)
-						.collection('messages').add(plainTextFile)
+						.collection('messages').add(message)
 				})
 			})
 	}

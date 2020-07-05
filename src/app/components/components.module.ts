@@ -12,6 +12,7 @@ import { ChatPreviewComponent } from '@components/chats/chat-preview/chat-previe
 import { FileComponent } from './file/file.component'
 
 import { DirectivesModule } from '../directives/directives.module'
+import { ClipboardModule } from 'ngx-clipboard'
 
 @NgModule({
 	declarations: [
@@ -27,7 +28,8 @@ import { DirectivesModule } from '../directives/directives.module'
 		RouterModule,
 		FormsModule,
 		ScrollingModule,
-		DirectivesModule
+		DirectivesModule,
+		ClipboardModule
 	],
 	exports: [
 		NavbarComponent,

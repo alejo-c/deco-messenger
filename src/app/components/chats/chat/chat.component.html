@@ -2,11 +2,19 @@
 	<mdb-card>
 
 		<mdb-card-header class='d-inline-flex'>
-			<a class='nav-link waves-light media m-0 p-0' dropdownToggle mdbWavesEffect>
+			<div class='nav-link waves-light media m-0 p-0' dropdownToggle mdbWavesEffect>
 				<img src='{{destinationUser?.photoURL}}' alt='{{destinationUser?.displayName}}'
 					class='img-fluid rounded-circle' width='40px'>
-				<div class='ml-1 font-weight-bold'>{{destinationUser?.displayName}}</div>
-			</a>
+				<div>
+					<div class='ml-1 font-weight-bold'>{{destinationUser?.displayName}}</div>
+					<div><span class='font-weight-bold'>Chat ID: </span>{{chat.id}}
+						<a>
+							<mdb-icon fas icon="copy" ngxClipboard [cbContent]='chat.id'>
+							</mdb-icon>
+						</a>
+					</div>
+				</div>
+			</div>
 		</mdb-card-header>
 
 		<mdb-card-body class='d-inline-block m-0 p-0 dropzone' appDropzone
