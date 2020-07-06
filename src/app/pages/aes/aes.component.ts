@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 
 import { EncryptService } from '@services/encrypt.service'
-import { ReadFileService } from '@services/read-file.service'
+import { FilesService } from '@services/files.service'
 
 @Component({
 	selector: 'app-aes',
@@ -21,7 +21,7 @@ export class AesComponent {
 
 	constructor(
 		private encryptService: EncryptService,
-		private readFileService: ReadFileService
+		private fileService: FilesService
 	) { }
 
 	encrypt() {
@@ -44,7 +44,7 @@ export class AesComponent {
 
 	async onDropEncrypt(files: FileList) {
 		let file = files.item(0)
-		this.plainText = await this.readFileService.readFileContent(file)
+		this.plainText = await this.fileService.text(file)
 	}
 
 	clearEncrypt() {
@@ -53,10 +53,15 @@ export class AesComponent {
 		this.conversionEncryptOutput = ''
 	}
 
-	clearDecrypt() {
-		this.encryptText = ''
-		this.decPassword = ''
-		this.conversionDecryptOutput = ''
+	downloadEncrypt() {
+		const blob = new Blob(
+			[this.conversionEncryptOutput]
+			, { type: 'application/octet-stream' }
+		)
+		this.fileService.saveURL(
+			window.URL.createObjectURL(blob)
+			, 'encrypted.txt'
+		)
 	}
 
 	toggleHoverDecrypt(event: boolean) {
@@ -65,6 +70,23 @@ export class AesComponent {
 
 	async onDropDecrypt(files: FileList) {
 		let file = files.item(0)
-		this.encryptText = await this.readFileService.readFileContent(file)
+		this.encryptText = await this.fileService.text(file)
+	}
+
+	clearDecrypt() {
+		this.encryptText = ''
+		this.decPassword = ''
+		this.conversionDecryptOutput = ''
+	}
+
+	downloadDecrypt() {
+		const blob = new Blob(
+			[this.conversionDecryptOutput]
+			, { type: 'application/octet-stream' }
+		)
+		this.fileService.saveURL(
+			window.URL.createObjectURL(blob)
+			, 'decrypted.txt'
+		)
 	}
 }

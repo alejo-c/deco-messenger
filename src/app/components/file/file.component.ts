@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core'
 
+import { ToastrService } from 'ngx-toastr'
+
 import { Message } from '@models/Message'
 
-import { HttpClient } from '@angular/common/http'
-import { ToastrService } from 'ngx-toastr'
-import { saveAs } from 'file-saver'
+import { FilesService } from '@services/files.service'
 
 @Component({
 	selector: 'app-file',
@@ -16,15 +16,12 @@ export class FileComponent {
 	@Input() file: Message
 
 	constructor(
-		private http: HttpClient,
+		private fileService: FilesService,
 		private toastr: ToastrService
 	) { }
 
 	download() {
-		this.http.get(this.file.URL, { responseType: 'blob' })
-			.subscribe(res => {
-				saveAs(res, this.file.name)
-			})
-		this.toastr.info('Use chat id to dencrypt the file text', 'Dencrypt file')
+
+		this.toastr.info('Use Chat ID to dencrypt the file text', 'Dencrypt file')
 	}
 }
