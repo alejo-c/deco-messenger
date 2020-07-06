@@ -83,8 +83,6 @@ export class ChatComponent implements OnChanges {
 			let message: Message = {
 				datetime: new Date().toISOString(),
 				ownerUid: this.currentUser.uid,
-				URL: this.text,
-				name: this.text,
 				text: this.text,
 				type: 'message'
 			}

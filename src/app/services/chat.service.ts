@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore'
 import { AngularFireStorage } from '@angular/fire/storage'
 
 import { EncryptService } from './encrypt.service'
-import { ReadFileService } from './read-file.service'
+import { FilesService } from './files.service'
 
 import { Chat } from '@models/Chat'
 import { Message } from '@models/Message'
@@ -18,8 +18,8 @@ export class ChatService {
 	constructor(
 		private firestore: AngularFirestore,
 		private storage: AngularFireStorage,
-		private encrypt: EncryptService,
-		private readFileService: ReadFileService
+		private encryptService: EncryptService,
+		private fileService: FilesService
 	) { }
 
 	createChat(chat: Chat): Promise<void> {
@@ -29,7 +29,7 @@ export class ChatService {
 
 	createMessage(chatId: string, message: Message) {
 		if (message.type == 'message')
-			message.text = this.encrypt.encrypt(message.text, chatId)
+			message.text = this.encryptService.encrypt(message.text, chatId)
 		return this.firestore.collection('chats').doc(chatId)
 			.collection('messages').doc(this.generateId())
 			.set(message, { merge: true })
@@ -43,8 +43,8 @@ export class ChatService {
 
 		const datetime = new Date().toISOString()
 
-		let text = this.encrypt.encrypt(
-			await this.readFileService.readFileContent(file), chatId
+		let text = this.encryptService.encrypt(
+			await this.fileService.text(file), chatId
 		)
 
 		this.storage.upload(path, new File(text.split(''), file.name))
@@ -54,9 +54,7 @@ export class ChatService {
 					let message: Message = {
 						datetime,
 						ownerUid,
-						URL,
 						name: file.name,
-						text: file.name,
 						type: 'file'
 					}
 					this.firestore.collection('chats').doc(chatId)
