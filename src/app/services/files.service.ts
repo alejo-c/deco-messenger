@@ -32,12 +32,9 @@ export class FilesService {
 		const blob = new Blob(
 			[text], { type: 'application/octet-stream' }
 		)
-		this.http.get(
-			window.URL.createObjectURL(blob), { responseType: 'blob' }
-		).subscribe(res => { saveAs(res, fileName) })
-	}
-
-	private save() {
-
+		this.saveURL(
+			window.URL.createObjectURL(blob)
+			, fileName
+		)
 	}
 }
