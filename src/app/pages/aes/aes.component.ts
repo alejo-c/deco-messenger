@@ -1,5 +1,7 @@
 import { Component } from '@angular/core'
 
+import { ToastrService } from 'ngx-toastr'
+
 import { EncryptService } from '@services/encrypt.service'
 import { FilesService } from '@services/files.service'
 
@@ -21,7 +23,8 @@ export class AesComponent {
 
 	constructor(
 		private encryptService: EncryptService,
-		private fileService: FilesService
+		private fileService: FilesService,
+		private toastr: ToastrService
 	) { }
 
 	encrypt() {
@@ -38,55 +41,50 @@ export class AesComponent {
 		)
 	}
 
-	toggleHoverEncrypt(event: boolean) {
-		this.isHoveringEncrypt = event
+	toggleHover(event: boolean, area: string) {
+		if (area == 'encrypt')
+			this.isHoveringEncrypt = event
+		else
+			this.isHoveringDecrypt = event
 	}
 
-	async onDropEncrypt(files: FileList) {
-		let file = files.item(0)
-		this.plainText = await this.fileService.text(file)
+	async onDrop(files: FileList, area: string) {
+		if (area == 'encrypt')
+			this.plainText = await this.fileService.text(files.item(0))
+		else
+			this.encryptText = await this.fileService.text(files.item(0))
 	}
 
-	clearEncrypt() {
-		this.plainText = ''
-		this.encPassword = ''
-		this.conversionEncryptOutput = ''
+	clear(area: string) {
+		if (area == 'encrypt')
+			this.plainText = this.encPassword = this.conversionEncryptOutput = ''
+		else
+			this.encryptText = this.decPassword = this.conversionDecryptOutput = ''
 	}
 
-	downloadEncrypt() {
-		const blob = new Blob(
-			[this.conversionEncryptOutput]
-			, { type: 'application/octet-stream' }
-		)
-		this.fileService.saveURL(
-			window.URL.createObjectURL(blob)
-			, 'encrypted.txt'
-		)
+	download(area: string) {
+		if (area == 'encrypt')
+			this.fileService.saveURL(
+				window.URL.createObjectURL(new Blob(
+					[this.conversionEncryptOutput]
+					, { type: 'application/octet-stream' }
+				))
+				, 'encrypted.txt'
+			)
+		else
+			this.fileService.saveURL(
+				window.URL.createObjectURL(new Blob(
+					[this.conversionDecryptOutput]
+					, { type: 'application/octet-stream' }
+				))
+				, 'decrypted.txt'
+			)
 	}
 
-	toggleHoverDecrypt(event: boolean) {
-		this.isHoveringDecrypt = event
-	}
-
-	async onDropDecrypt(files: FileList) {
-		let file = files.item(0)
-		this.encryptText = await this.fileService.text(file)
-	}
-
-	clearDecrypt() {
-		this.encryptText = ''
-		this.decPassword = ''
-		this.conversionDecryptOutput = ''
-	}
-
-	downloadDecrypt() {
-		const blob = new Blob(
-			[this.conversionDecryptOutput]
-			, { type: 'application/octet-stream' }
-		)
-		this.fileService.saveURL(
-			window.URL.createObjectURL(blob)
-			, 'decrypted.txt'
-		)
+	copy(area: string) {
+		if (area == 'encrypt')
+			this.toastr.info('Encrypted text copied to clipboard')
+		else
+			this.toastr.info('Decrypted text copied to clipboard')
 	}
 }

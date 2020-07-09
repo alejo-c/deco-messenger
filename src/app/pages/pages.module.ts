@@ -13,6 +13,7 @@ import { ProfileComponent } from '@pages/profile/profile.component'
 import { AesComponent } from './aes/aes.component'
 
 import { DirectivesModule } from '../directives/directives.module'
+import { ClipboardModule } from 'ngx-clipboard'
 
 @NgModule({
 	declarations: [HomeComponent,
@@ -27,7 +28,8 @@ import { DirectivesModule } from '../directives/directives.module'
 		ComponentsModule,
 		FormsModule,
 		RouterModule,
-		DirectivesModule
+		DirectivesModule,
+		ClipboardModule
 	]
 })
 export class PagesModule { }

@@ -3,9 +3,8 @@
 		<button mdbBtn class='btn btn-primary btn-lg btn-block'>
 			Encryption
 		</button>
-		<br>
-		<div class='form-group dropzone' appDropzone (hovered)='toggleHoverEncrypt($event)'
-			(dropped)='onDropEncrypt($event)' [class.hovering]='isHoveringEncrypt'>
+		<div class='form-group dropzone' appDropzone (hovered)='toggleHover($event, "encrypt")'
+			(dropped)='onDrop($event, "encrypt")' [class.hovering]='isHoveringEncrypt'>
 			<label for='txtTextToConvert'>Enter Plain Text or Drag a File</label>
 			<textarea class='form-control' placeholder='Text to encrypt'
 				[(ngModel)]='plainText'></textarea>
@@ -17,20 +16,21 @@
 				[(ngModel)]='encPassword'>
 		</div>
 		<textarea class='form-control' readonly>{{conversionEncryptOutput}}</textarea>
-		<br>
+
 		<button mdbBtn class='btn btn-success float-right' (click)='encrypt()'>Encrypt</button>
-		<button mdbBtn class='btn btn-info float-right' (click)='clearEncrypt()'>Clear</button>
+		<button mdbBtn class='btn btn-info float-right' (click)='clear("encrypt")'>Clear</button>
+		<button mdbBtn class='btn btn-default float-right' (click)='copy("encrypt")' ngxClipboard
+			[cbContent]='conversionEncryptOutput'>Copy</button>
 		<button mdbBtn class='btn btn-warning float-right'
-			(click)='downloadEncrypt()'>Download</button>
+			(click)='download("encrypt")'>Download</button>
 	</div>
 
 	<div class='col-sm-6'>
 		<button mdbBtn class='btn btn-dark btn-lg btn-block'>
 			Decryption
 		</button>
-		<br>
-		<div class='form-group dropzone' appDropzone (hovered)='toggleHoverDecrypt($event)'
-			(dropped)='onDropDecrypt($event)' [class.hovering]='isHoveringDecrypt'>
+		<div class='form-group dropzone' appDropzone (hovered)='toggleHover($event, "decrypt")'
+			(dropped)='onDrop($event, "decrypt")' [class.hovering]='isHoveringDecrypt'>
 			<label for='txtTextToConvert'>Enter Encrypted Text or Drag a File</label>
 			<textarea class='form-control' placeholder='Text to decrypt'
 				[(ngModel)]='encryptText'></textarea>
@@ -42,10 +42,12 @@
 				[(ngModel)]='decPassword'>
 		</div>
 		<textarea class='form-control' readonly>{{conversionDecryptOutput}}</textarea>
-		<br>
+
 		<button mdbBtn class='btn btn-success float-right' (click)='decrypt()'>Decrypt</button>
-		<button mdbBtn class='btn btn-info float-right' (click)='clearDecrypt()'>Clear</button>
+		<button mdbBtn class='btn btn-info float-right' (click)='clear("decrypt")'>Clear</button>
+		<button mdbBtn class='btn btn-default float-right' (click)='copy("decrypt")' ngxClipboard
+			[cbContent]='conversionDecryptOutput'>Copy</button>
 		<button mdbBtn class='btn btn-warning float-right'
-			(click)='downloadDecrypt()'>Download</button>
+			(click)='download("decrypt")'>Download</button>
 	</div>
 </div>
